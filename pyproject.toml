@@ -1,0 +1,23 @@
+[project]
+name = "openai-api-polling"
+version = "0.1.0"
+description = "Polling OpenAI API without rate limit issues."
+readme = "README.md"
+authors = [
+    { name = "SongTan", email = "sepinetam@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "openai>=2.8.1",
+]
+
+[project.scripts]
+openai-api-polling = "openai_api_polling:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Homepage = "https://github.com/sepinetam/openai-api-polling"
+Source = "https://github.com/sepinetam/openai-api-polling"
