@@ -7,7 +7,7 @@ on:
     types: [published]
 
 jobs:
-  Deploy:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
