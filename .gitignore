@@ -15,3 +15,9 @@ wheels/
 
 # OS X
 *.DS_Store
+
+# Locals
+.local/
+.locals/
+local/
+locals/
