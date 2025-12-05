@@ -16,27 +16,26 @@ from .api_polling import APIPolling
 
 class ClientPolling:
     def __init__(self,
-                 api_keys: List[str],
+                 api_keys: APIPolling | List[str],
                  *args, **kwargs):
-        self.api_key_polling = APIPolling(api_keys)
+        self.api_polling = APIPolling(api_keys)
         self.openai_kwargs = kwargs.copy()
 
     def __len__(self):
-        return self.api_key_polling.polling_length
+        return self.api_polling.polling_length
 
     @property
     def client(self) -> OpenAI:
         client = OpenAI(
-            api_key=self.api_key_polling.api_key,
+            api_key=self.api_polling.api_key,
             **self.openai_kwargs
         )
         return client
 
     @property
-    def async_client(self) -> OpenAI:
+    def async_client(self) -> AsyncOpenAI:
         client = AsyncOpenAI(
-            api_key=self.api_key_polling.api_key,
+            api_key=self.api_polling.api_key,
             **self.openai_kwargs
         )
         return client
-

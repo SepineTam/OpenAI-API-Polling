@@ -7,13 +7,18 @@
 # @Email  : sepinetam@gmail.com
 # @File   : api_polling.py
 
+from __future__ import annotations
+
 from typing import List
 
 
 class APIPolling:
     def __init__(self,
-                 api_keys: List[str]):
-        self.api_polling = api_keys
+                 api_keys: APIPolling | List[str]):
+        if isinstance(api_keys, APIPolling):
+            self.api_polling = list(api_keys.api_polling).copy()
+        else:
+            self.api_polling = api_keys
         self._index = 0
 
     def __str__(self):
