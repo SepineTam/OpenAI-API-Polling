@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 
+from os import PathLike
+from pathlib import Path
 from typing import List
 
 
@@ -64,6 +66,18 @@ class APIPolling:
         prefix = api_key[:visible]
         suffix = api_key[-visible:]
         return prefix + (mask_char * mask_len) + suffix
+
+    @classmethod
+    def load_api(cls,
+                 api_file: str | PathLike = Path.home() / ".api") -> APIPolling:
+        api_file = Path(api_file).expanduser().absolute().as_posix()
+        api_keys: List[str] = []
+        with open(api_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):  # 只添加非空行且不以#开头的行
+                    api_keys.append(line)
+        return cls(api_keys)
 
 
 if __name__ == "__main__":
