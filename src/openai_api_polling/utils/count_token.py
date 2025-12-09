@@ -37,5 +37,5 @@ class CountToken:
 
 
 if __name__ == "__main__":
-    count_token = CountToken(OpenAIResources.EMBEDDING)
-    print(count_token.token("Hello, world!"))
+    token_counter = CountToken(OpenAIResources.EMBEDDING)
+    print(token_counter.token("Hello, world!"))
