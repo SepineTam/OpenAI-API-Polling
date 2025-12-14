@@ -9,6 +9,8 @@
 
 from typing import List
 
+import anthropic
+from google import genai
 from openai import AsyncOpenAI, OpenAI
 
 from .api_polling import APIPolling
@@ -19,7 +21,7 @@ class ClientPolling:
                  api_keys: APIPolling | List[str],
                  *args, **kwargs):
         self.api_polling = APIPolling(api_keys)
-        self.openai_kwargs = kwargs.copy()
+        self.client_kwargs = kwargs.copy()
 
     def __len__(self):
         return self.api_polling.polling_length
@@ -28,7 +30,7 @@ class ClientPolling:
     def client(self) -> OpenAI:
         client = OpenAI(
             api_key=self.api_polling.api_key,
-            **self.openai_kwargs
+            **self.client_kwargs
         )
         return client
 
@@ -36,6 +38,41 @@ class ClientPolling:
     def async_client(self) -> AsyncOpenAI:
         client = AsyncOpenAI(
             api_key=self.api_polling.api_key,
-            **self.openai_kwargs
+            **self.client_kwargs
+        )
+        return client
+
+
+class GeminiClientPolling(ClientPolling):
+    @property
+    def client(self) -> genai.Client:
+        client = genai.Client(
+            api_key=self.api_polling.api_key,
+            **self.client_kwargs
+        )
+        return client
+
+    @property
+    def async_client(self) -> genai.Client:
+        """
+        Google GenAI SDK not support async client. (At least I have not found that)
+        """
+        return self.client
+
+
+class ClaudeClientPolling(ClientPolling):
+    @property
+    def client(self) -> anthropic.Anthropic:
+        client = anthropic.Anthropic(
+            api_key=self.api_polling.api_key,
+            **self.client_kwargs
+        )
+        return client
+
+    @property
+    def async_client(self) -> anthropic.AsyncAnthropic:
+        client = anthropic.AsyncAnthropic(
+            api_key=self.api_polling.api_key,
+            **self.client_kwargs
         )
         return client
